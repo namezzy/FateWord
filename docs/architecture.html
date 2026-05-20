@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天机测字 - 架构图</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Serif SC', serif; background: #F5F0EB; color: #2C2C2C; padding: 40px 20px; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  h1 { text-align: center; font-size: 28px; letter-spacing: 0.4em; margin-bottom: 8px; }
+  .subtitle { text-align: center; font-size: 13px; color: #8B7355; letter-spacing: 0.3em; margin-bottom: 40px; }
+  .divider { width: 60px; height: 2px; background: linear-gradient(90deg, transparent, #8B7355, transparent); margin: 12px auto 20px; }
+
+  /* Architecture layers */
+  .layer { margin-bottom: 24px; position: relative; }
+  .layer-label {
+    position: absolute; left: -10px; top: 50%; transform: translateY(-50%) rotate(-90deg);
+    font-size: 10px; color: #8B7355; letter-spacing: 0.3em; white-space: nowrap;
+    display: none;
+  }
+  @media (min-width: 800px) { .layer-label { display: block; left: -50px; } }
+
+  .layer-title {
+    font-size: 13px; color: #8B7355; letter-spacing: 0.2em; margin-bottom: 10px;
+    padding-left: 12px; border-left: 3px solid #C93756;
+  }
+
+  .boxes { display: flex; flex-wrap: wrap; gap: 10px; }
+  .box {
+    flex: 1; min-width: 120px; padding: 14px 16px;
+    border: 1px solid #D4C5B0; border-radius: 6px;
+    background: rgba(255,255,255,0.5); position: relative;
+    transition: all 0.3s;
+  }
+  .box:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(139,115,85,0.1); }
+  .box h3 { font-size: 14px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; }
+  .box p { font-size: 11px; color: #5a4a3a; line-height: 1.6; }
+  .box .tag {
+    display: inline-block; font-size: 9px; padding: 2px 6px; border-radius: 3px;
+    margin-top: 6px; letter-spacing: 0.1em;
+  }
+  .tag-react { background: #E3F2FD; color: #1565C0; }
+  .tag-ts { background: #E8F5E9; color: #2E7D32; }
+  .tag-api { background: #FFF3E0; color: #E65100; }
+  .tag-lib { background: #F3E5F5; color: #7B1FA2; }
+  .tag-css { background: #FCE4EC; color: #C62828; }
+  .tag-storage { background: #EFEBE9; color: #4E342E; }
+
+  /* Arrows */
+  .arrow-section {
+    display: flex; justify-content: center; margin: 8px 0;
+    color: #8B7355; font-size: 18px; letter-spacing: 0.5em;
+  }
+
+  /* Flow diagram */
+  .flow { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 30px 0; }
+  .flow-step {
+    padding: 10px 18px; border: 2px solid #8B7355; border-radius: 6px;
+    font-size: 12px; font-weight: 600; text-align: center; min-width: 80px;
+    background: rgba(255,255,255,0.6);
+  }
+  .flow-step.highlight { border-color: #C93756; color: #C93756; }
+  .flow-arrow { font-size: 16px; color: #8B7355; }
+
+  /* Tech stack table */
+  .tech-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
+  .tech-table th {
+    background: #8B7355; color: white; padding: 8px 12px; text-align: left;
+    letter-spacing: 0.15em; font-weight: 600;
+  }
+  .tech-table td { padding: 8px 12px; border-bottom: 1px solid #E8DED0; }
+  .tech-table tr:hover td { background: rgba(255,255,255,0.4); }
+  .tech-table .mono { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 11px; color: #C93756; }
+
+  .section-title {
+    text-align: center; font-size: 16px; letter-spacing: 0.3em; margin: 40px 0 16px;
+    color: #1a1a1a; font-weight: 700;
+  }
+
+  .note {
+    margin-top: 30px; padding: 16px; border: 1px dashed #D4C5B0; border-radius: 6px;
+    font-size: 11px; color: #6a5a4a; line-height: 1.8; background: rgba(255,255,255,0.3);
+  }
+  .note strong { color: #C93756; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>天机测字</h1>
+  <div class="divider"></div>
+  <p class="subtitle">FateWord · System Architecture</p>
+
+  <!-- ============ 算法流程 ============ -->
+  <div class="section-title">⟐ 核心算法流程 ⟐</div>
+
+  <div class="flow">
+    <div class="flow-step">📝 用户输入<br><small>1-3 个汉字</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">🔍 cnchar 解析<br><small>笔画 / 拼音 / 五行</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step highlight">☯ 梅花易数<br><small>起卦算法</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">☰ 排盘<br><small>本卦 / 互卦 / 变卦</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">🔥 五行推演<br><small>生克 × 天干地支</small></div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step highlight">📜 运势输出<br><small>事业/财运/感情/健康</small></div>
+  </div>
+
+  <!-- ============ 系统架构 ============ -->
+  <div class="section-title">⟐ 系统架构 ⟐</div>
+
+  <!-- 表现层 -->
+  <div class="layer">
+    <div class="layer-title">表现层 · Presentation</div>
+    <div class="boxes">
+      <div class="box">
+        <h3>InputPanel</h3>
+        <p>输入框 + IME 组字处理<br>中文过滤 · 1-3字限制</p>
+        <span class="tag tag-react">React</span>
+      </div>
+      <div class="box">
+        <h3>CharacterInfo</h3>
+        <p>字解展示<br>拼音 · 笔画 · 五行属性</p>
+        <span class="tag tag-react">React</span>
+      </div>
+      <div class="box">
+        <h3>HexagramDisplay</h3>
+        <p>卦象可视化<br>六爻图 · 动爻标记</p>
+        <span class="tag tag-react">React</span>
+      </div>
+      <div class="box">
+        <h3>FortuneCard</h3>
+        <p>运势卡片 × 4<br>梅花评分 · 详情</p>
+        <span class="tag tag-react">React</span>
+      </div>
+      <div class="box">
+        <h3>ExportCard</h3>
+        <p>导出为图片<br>html2canvas · 3x高清</p>
+        <span class="tag tag-react">React</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-section">▼ ▼ ▼</div>
+
+  <!-- 样式层 -->
+  <div class="layer">
+    <div class="layer-title">样式层 · Styling</div>
+    <div class="boxes">
+      <div class="box">
+        <h3>Tailwind CSS 4</h3>
+        <p>原子化 CSS · 响应式<br>自定义主题变量</p>
+        <span class="tag tag-css">CSS</span>
+      </div>
+      <div class="box">
+        <h3>Framer Motion</h3>
+        <p>卷轴展开 · 墨滴动画<br>太极旋转 · 过渡效果</p>
+        <span class="tag tag-css">Animation</span>
+      </div>
+      <div class="box">
+        <h3>水墨主题</h3>
+        <p>宣纸色 #F5F0EB · 古铜 #8B7355<br>朱砂 #C93756 · Noto Serif SC</p>
+        <span class="tag tag-css">Theme</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-section">▼ ▼ ▼</div>
+
+  <!-- 逻辑层 -->
+  <div class="layer">
+    <div class="layer-title">逻辑层 · Core Engine (Browser-side)</div>
+    <div class="boxes">
+      <div class="box">
+        <h3>meihua.ts</h3>
+        <p>梅花易数核心<br>起卦 · 动爻 · 互卦 · 变卦</p>
+        <span class="tag tag-lib">Algorithm</span>
+      </div>
+      <div class="box">
+        <h3>bagua.ts</h3>
+        <p>八卦数据<br>先天八卦数 · 符号 · 五行</p>
+        <span class="tag tag-lib">Data</span>
+      </div>
+      <div class="box">
+        <h3>hexagrams.ts</h3>
+        <p>六十四卦表<br>卦名 · 卦辞 · 运势</p>
+        <span class="tag tag-lib">Data</span>
+      </div>
+      <div class="box">
+        <h3>wuxing.ts</h3>
+        <p>五行生克<br>相生相克 · 运势权重</p>
+        <span class="tag tag-lib">Algorithm</span>
+      </div>
+      <div class="box">
+        <h3>ganzhi.ts</h3>
+        <p>天干地支<br>日期→干支转换</p>
+        <span class="tag tag-lib">Algorithm</span>
+      </div>
+      <div class="box">
+        <h3>character.ts</h3>
+        <p>汉字处理<br>cnchar · 笔画 · 拼音</p>
+        <span class="tag tag-ts">cnchar</span>
+      </div>
+      <div class="box">
+        <h3>fortune.ts</h3>
+        <p>运势生成<br>内置文本 + 评分算法</p>
+        <span class="tag tag-lib">Generator</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-section">▼ ▼ ▼</div>
+
+  <!-- 服务层 -->
+  <div class="layer">
+    <div class="layer-title">服务层 · API & Storage</div>
+    <div class="boxes">
+      <div class="box">
+        <h3>API Route</h3>
+        <p>/api/divine<br>DeepSeek 代理 · AI 解卦</p>
+        <span class="tag tag-api">Next.js API</span>
+      </div>
+      <div class="box">
+        <h3>DeepSeek LLM</h3>
+        <p>deepseek-chat 模型<br>文言 + 白话运势生成</p>
+        <span class="tag tag-api">External API</span>
+      </div>
+      <div class="box">
+        <h3>localStorage</h3>
+        <p>历史记录存储<br>最近 20 条 · 可回溯</p>
+        <span class="tag tag-storage">Browser</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 技术栈 ============ -->
+  <div class="section-title">⟐ 技术栈一览 ⟐</div>
+
+  <table class="tech-table">
+    <tr><th>Layer</th><th>Technology</th><th>Version</th><th>Purpose</th></tr>
+    <tr><td>Framework</td><td class="mono">Next.js (App Router)</td><td>14</td><td>全栈 React 框架</td></tr>
+    <tr><td>Language</td><td class="mono">TypeScript</td><td>6.0</td><td>类型安全</td></tr>
+    <tr><td>UI</td><td class="mono">React</td><td>18</td><td>组件化视图层</td></tr>
+    <tr><td>Styling</td><td class="mono">Tailwind CSS</td><td>4.3</td><td>原子化 CSS 框架</td></tr>
+    <tr><td>Animation</td><td class="mono">Framer Motion</td><td>12</td><td>声明式动画</td></tr>
+    <tr><td>Chinese NLP</td><td class="mono">cnchar</td><td>3.2</td><td>汉字笔画 / 拼音</td></tr>
+    <tr><td>Export</td><td class="mono">html2canvas</td><td>latest</td><td>DOM → 图片导出</td></tr>
+    <tr><td>AI</td><td class="mono">DeepSeek API</td><td>v1</td><td>LLM 解卦文本生成</td></tr>
+    <tr><td>Deploy</td><td class="mono">Vercel</td><td>-</td><td>边缘部署 + CDN</td></tr>
+    <tr><td>Storage</td><td class="mono">localStorage</td><td>-</td><td>客户端历史记录</td></tr>
+  </table>
+
+  <!-- ============ 数据流 ============ -->
+  <div class="section-title">⟐ 数据流向 ⟐</div>
+
+  <div class="flow">
+    <div class="flow-step" style="background:#FFF3E0">用户</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">"天" (输入)</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">4画 · tiān · 火</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step highlight">上卦:兑 下卦:坤<br>动爻:4</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step">本卦:萃<br>互卦:剥 变卦:升</div>
+    <span class="flow-arrow">→</span>
+    <div class="flow-step" style="background:#FCE4EC">运势报告</div>
+  </div>
+
+  <div class="note">
+    <strong>架构特点：</strong>
+    客户端为主体的架构设计。梅花易数算法、五行推演、天干地支计算全部在浏览器端运行，保证<strong>零延迟</strong>的起卦体验。
+    仅 DeepSeek LLM 调用通过 Next.js API Route 代理（保护 API Key），且为<strong>可选功能</strong>——
+    即使没有网络连接，应用也能基于内置的卦辞文本完成完整的测算。
+  </div>
+
+  <div style="text-align:center; margin-top:30px; font-size:10px; color:#8B7355; letter-spacing:0.3em">
+    Crafted by Levi · © 2026 · github.com/namezzy/FateWord
+  </div>
+</div>
+</body>
+</html>
