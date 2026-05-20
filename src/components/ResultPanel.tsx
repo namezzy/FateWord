@@ -58,7 +58,7 @@ export default function ResultPanel({ divination, characters, fortune }: ResultP
           <div className="absolute top-3 right-3 seal-stamp hidden sm:inline-flex">
             卦
           </div>
-          <div className="text-sm sm:text-base text-[var(--color-dan-mo)] leading-loose whitespace-pre-line sm:pr-14">
+          <div className="text-sm sm:text-base text-[#1a1a1a] leading-loose whitespace-pre-line sm:pr-14 font-medium">
             {fortune.overallFortune}
           </div>
           <div className="mt-4 pt-3 border-t border-[var(--color-border-light,var(--color-border))] flex justify-between items-center">

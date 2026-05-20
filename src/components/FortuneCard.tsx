@@ -33,17 +33,17 @@ export default function FortuneCard({ aspect, index }: FortuneCardProps) {
     >
       <div className="flex items-center gap-2 mb-2">
         <span className="text-xl">{aspect.icon}</span>
-        <h4 className="text-base font-bold text-[var(--color-dan-mo)] tracking-[0.2em]">
+        <h4 className="text-base font-bold text-[#1a1a1a] tracking-[0.2em]">
           {aspect.name}
         </h4>
       </div>
 
       <PlumBlossomRating score={aspect.score} />
 
-      <p className="text-sm text-[var(--color-dan-mo)] font-semibold mb-2">
+      <p className="text-sm text-[#2a2a2a] font-semibold mb-2">
         {aspect.summary}
       </p>
-      <p className="text-xs text-[var(--color-gu-tong)] leading-relaxed">
+      <p className="text-xs text-[#5a4a3a] leading-relaxed">
         {aspect.detail}
       </p>
     </motion.div>

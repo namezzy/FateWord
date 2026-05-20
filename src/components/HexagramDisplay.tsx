@@ -28,8 +28,8 @@ function HexagramCard({ hexagram, label, delay = 0 }: { hexagram: Hexagram; labe
       className="scroll-border rounded-lg p-4 text-center flex-1 min-w-[90px]"
     >
       <div className="text-xs text-[var(--color-gu-tong)] tracking-[0.2em] mb-2">{label}</div>
-      <div className="text-2xl sm:text-3xl mb-1 text-[var(--color-dan-mo)]">{hexagram.name}</div>
-      <div className="text-xs text-[var(--color-gu-tong)]">{hexagram.fullName}</div>
+      <div className="text-2xl sm:text-3xl mb-1 text-[#1a1a1a] font-bold">{hexagram.name}</div>
+      <div className="text-xs text-[#5a4a3a] font-medium">{hexagram.fullName}</div>
     </motion.div>
   );
 }

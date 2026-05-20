@@ -71,17 +71,59 @@ export default function Home() {
 
   return (
     <main className="min-h-screen px-4 py-8 sm:py-12 overflow-hidden">
-      {/* 背景装饰：浮动太极 */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
-        <div className="taiji-float absolute top-[10%] left-[5%] text-8xl text-[var(--color-gu-tong)]">☯</div>
-        <div className="taiji-float absolute bottom-[15%] right-[8%] text-6xl text-[var(--color-gu-tong)]" style={{ animationDelay: '-3s' }}>☯</div>
-        <div className="taiji-float absolute top-[45%] right-[3%] text-5xl text-[var(--color-gu-tong)]" style={{ animationDelay: '-5s' }}>☰</div>
-        <div className="taiji-float absolute bottom-[35%] left-[3%] text-5xl text-[var(--color-gu-tong)]" style={{ animationDelay: '-7s' }}>☵</div>
+      {/* 背景装饰：太极八卦图 */}
+      <div className="taiji-bg" aria-hidden="true">
+        {/* 中心太极图 */}
+        <div className="bagua-circle bagua-circle-rotate">
+          <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+            {/* 太极阴阳 */}
+            <circle cx="250" cy="250" r="120" fill="none" stroke="#8B7355" strokeWidth="1"/>
+            <path d="M250,130 A120,120 0 0,1 250,370 A60,60 0 0,0 250,250 A60,60 0 0,1 250,130" fill="#8B7355" opacity="0.3"/>
+            <path d="M250,130 A120,120 0 0,0 250,370 A60,60 0 0,1 250,250 A60,60 0 0,0 250,130" fill="#8B7355" opacity="0.08"/>
+            <circle cx="250" cy="190" r="12" fill="#8B7355" opacity="0.08"/>
+            <circle cx="250" cy="310" r="12" fill="#8B7355" opacity="0.3"/>
+
+            {/* 八卦方位文字 */}
+            <text x="250" y="90" textAnchor="middle" fill="#8B7355" fontSize="16" fontFamily="serif">☰ 乾</text>
+            <text x="250" y="425" textAnchor="middle" fill="#8B7355" fontSize="16" fontFamily="serif">☷ 坤</text>
+            <text x="95" y="255" textAnchor="middle" fill="#8B7355" fontSize="16" fontFamily="serif">☵ 坎</text>
+            <text x="405" y="255" textAnchor="middle" fill="#8B7355" fontSize="16" fontFamily="serif">☲ 离</text>
+            <text x="130" y="130" textAnchor="middle" fill="#8B7355" fontSize="14" fontFamily="serif">☶ 艮</text>
+            <text x="370" y="130" textAnchor="middle" fill="#8B7355" fontSize="14" fontFamily="serif">☱ 兑</text>
+            <text x="130" y="385" textAnchor="middle" fill="#8B7355" fontSize="14" fontFamily="serif">☳ 震</text>
+            <text x="370" y="385" textAnchor="middle" fill="#8B7355" fontSize="14" fontFamily="serif">☴ 巽</text>
+
+            {/* 八卦连线 */}
+            <circle cx="250" cy="250" r="180" fill="none" stroke="#8B7355" strokeWidth="0.5" strokeDasharray="4,6"/>
+            <circle cx="250" cy="250" r="220" fill="none" stroke="#8B7355" strokeWidth="0.3" strokeDasharray="2,8"/>
+          </svg>
+        </div>
+
+        {/* 五行相生环 */}
+        <div className="wuxing-ring wuxing-ring-rotate">
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: '100%' }}>
+            {/* 五行文字：金木水火土 */}
+            <text x="150" y="30" textAnchor="middle" fill="#8B7355" fontSize="14" fontFamily="serif">金</text>
+            <text x="270" y="120" textAnchor="middle" fill="#8B7355" fontSize="14" fontFamily="serif">水</text>
+            <text x="225" y="265" textAnchor="middle" fill="#8B7355" fontSize="14" fontFamily="serif">木</text>
+            <text x="75" y="265" textAnchor="middle" fill="#8B7355" fontSize="14" fontFamily="serif">火</text>
+            <text x="30" y="120" textAnchor="middle" fill="#8B7355" fontSize="14" fontFamily="serif">土</text>
+            {/* 相生箭头 */}
+            <circle cx="150" cy="150" r="100" fill="none" stroke="#8B7355" strokeWidth="0.5" strokeDasharray="3,5"/>
+          </svg>
+        </div>
+
+        {/* 角落装饰卦符 */}
+        <div className="absolute top-[8%] left-[6%] text-7xl text-[var(--color-gu-tong)] opacity-[0.03]" style={{ transform: 'rotate(-15deg)' }}>☰</div>
+        <div className="absolute bottom-[8%] right-[6%] text-7xl text-[var(--color-gu-tong)] opacity-[0.03]" style={{ transform: 'rotate(15deg)' }}>☷</div>
+        <div className="absolute top-[40%] right-[4%] text-5xl text-[var(--color-gu-tong)] opacity-[0.03]" style={{ transform: 'rotate(10deg)' }}>☵</div>
+        <div className="absolute bottom-[30%] left-[4%] text-5xl text-[var(--color-gu-tong)] opacity-[0.03]" style={{ transform: 'rotate(-10deg)' }}>☲</div>
+
         {/* 竖排古文装饰 */}
-        <div className="vertical-text absolute top-[20%] left-[2%] text-xs text-[var(--color-border)] opacity-30 hidden lg:block">
+        <div className="vertical-text absolute top-[15%] left-[2%] text-xs text-[var(--color-gu-tong)] opacity-[0.06] hidden lg:block tracking-[0.5em]">
           天行健君子以自强不息
         </div>
-        <div className="vertical-text absolute top-[20%] right-[2%] text-xs text-[var(--color-border)] opacity-30 hidden lg:block">
+        <div className="vertical-text absolute top-[15%] right-[2%] text-xs text-[var(--color-gu-tong)] opacity-[0.06] hidden lg:block tracking-[0.5em]">
           地势坤君子以厚德载物
         </div>
       </div>
