@@ -164,7 +164,7 @@ export default function Home() {
 
         <div className="flex items-center justify-center gap-3 my-4">
           <div className="w-16 sm:w-24 h-px bg-gradient-to-r from-transparent to-[var(--color-gu-tong)] opacity-60" />
-          <span className="text-[var(--color-zhu-sha)] text-lg">☯</span>
+          <span className="text-[var(--color-zhu-sha)] text-2xl">☯</span>
           <div className="w-16 sm:w-24 h-px bg-gradient-to-l from-transparent to-[var(--color-gu-tong)] opacity-60" />
         </div>
 
@@ -177,7 +177,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 1 }}
-          className="flex justify-center gap-2 mt-4 text-base text-[#6a5a4a]"
+          className="flex justify-center gap-3 mt-4 text-xl text-[#6a5a4a]"
         >
           {['☰','☱','☲','☳','☴','☵','☶','☷'].map((s, i) => (
             <motion.span
