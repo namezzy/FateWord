@@ -246,8 +246,8 @@ export default function Home() {
         >
           <button
             onClick={() => setShowHistory(!showHistory)}
-            className="w-full text-center text-xs text-[var(--color-border)]
-                       hover:text-[var(--color-gu-tong)] transition-colors"
+            className="w-full text-center text-xs text-[#6a5a4a]
+                       hover:text-[var(--color-dan-mo)] transition-colors"
           >
             {showHistory ? '收起' : '展开'}历史记录 ({history.length})
           </button>
@@ -289,12 +289,12 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="mt-16 pb-8 text-center">
-        <div className="inline-flex flex-col items-center gap-2 opacity-40 hover:opacity-70 transition-opacity duration-500">
-          <div className="w-16 h-px bg-gradient-to-r from-transparent via-[var(--color-gu-tong)] to-transparent" />
-          <div className="font-mono text-[10px] tracking-[0.25em] uppercase text-[var(--color-gu-tong)]">
-            <span>Crafted by <span className="text-[var(--color-dan-mo)] font-semibold">Levi</span></span>
+        <div className="inline-flex flex-col items-center gap-2">
+          <div className="w-20 h-px bg-gradient-to-r from-transparent via-[var(--color-gu-tong)] to-transparent" />
+          <div className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#6a5a4a]">
+            <span>Crafted by <span className="text-[#3a3a3a] font-semibold">Levi</span></span>
             <span className="mx-2">·</span>
-            <span>Powered by <span className="text-[var(--color-dan-mo)] font-semibold">Claude Opus</span></span>
+            <span>Powered by <span className="text-[#3a3a3a] font-semibold">Claude Opus</span></span>
             <span className="mx-2">·</span>
             <span>© 2026</span>
           </div>

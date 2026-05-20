@@ -98,12 +98,12 @@ export default function ResultPanel({ divination, characters, fortune }: ResultP
         className="text-center py-8 space-y-3"
       >
         <div className="flex items-center justify-center gap-3">
-          <div className="w-12 h-px bg-gradient-to-r from-transparent to-[var(--color-border)]" />
-          <span className="text-[var(--color-border)] text-sm">☯</span>
-          <div className="w-12 h-px bg-gradient-to-l from-transparent to-[var(--color-border)]" />
+          <div className="w-12 h-px bg-gradient-to-r from-transparent to-[var(--color-gu-tong)]" />
+          <span className="text-[var(--color-gu-tong)] text-sm">☯</span>
+          <div className="w-12 h-px bg-gradient-to-l from-transparent to-[var(--color-gu-tong)]" />
         </div>
-        <p className="text-xs text-[var(--color-border)]">此测算结果仅供娱乐参考</p>
-        <p className="text-[10px] text-[var(--color-border)] tracking-[0.2em]">
+        <p className="text-xs text-[#5a4a3a]">此测算结果仅供娱乐参考</p>
+        <p className="text-xs text-[#6a5a4a] tracking-[0.2em] italic">
           易曰：「天垂象，见吉凶，圣人象之」
         </p>
       </motion.div>
