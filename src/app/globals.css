@@ -2,11 +2,13 @@
 
 @theme {
   --color-xuan-zhi: #F5F0EB;
+  --color-xuan-zhi-dark: #EDE5D8;
   --color-dan-mo: #2C2C2C;
   --color-gu-tong: #8B7355;
   --color-zhu-sha: #C93756;
   --color-liu-li-jin: #E8B004;
   --color-border: #D4C5B0;
+  --color-border-light: #E8DED0;
   --font-serif-cn: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
 }
 
@@ -26,26 +28,87 @@ body {
   color: white;
 }
 
-/* 水墨纹理背景 */
+/* 水墨纹理背景 - 增强版 */
 .ink-bg {
   background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(139, 115, 85, 0.03) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(139, 115, 85, 0.02) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(201, 55, 86, 0.01) 0%, transparent 50%);
+    radial-gradient(ellipse at 15% 30%, rgba(139, 115, 85, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 15%, rgba(139, 115, 85, 0.04) 0%, transparent 40%),
+    radial-gradient(ellipse at 50% 85%, rgba(201, 55, 86, 0.02) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 60%, rgba(139, 115, 85, 0.03) 0%, transparent 35%),
+    radial-gradient(ellipse at 25% 75%, rgba(212, 197, 176, 0.08) 0%, transparent 45%);
+  position: relative;
 }
 
-/* 古卷边框 */
+/* 宣纸纤维纹理 */
+.ink-bg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 115, 85, 0.008) 2px,
+      rgba(139, 115, 85, 0.008) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(139, 115, 85, 0.005) 3px,
+      rgba(139, 115, 85, 0.005) 6px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ink-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* 古卷边框 - 带双线纹理 */
 .scroll-border {
   border: 1px solid var(--color-border);
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(6px);
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 255, 255, 0.2),
+    0 2px 12px rgba(139, 115, 85, 0.08);
+  position: relative;
 }
+
+.scroll-border::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border: 1px solid var(--color-border-light);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* 装饰性角纹 */
+.corner-ornament {
+  position: relative;
+}
+.corner-ornament::before,
+.corner-ornament::after {
+  content: '◆';
+  position: absolute;
+  font-size: 6px;
+  color: var(--color-border);
+  opacity: 0.6;
+}
+.corner-ornament::before { top: -3px; left: -3px; }
+.corner-ornament::after { bottom: -3px; right: -3px; }
 
 /* 八卦符号样式 */
 .trigram-symbol {
   font-size: 2rem;
   line-height: 1;
   color: var(--color-dan-mo);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 /* 梅花评分 */
@@ -57,18 +120,107 @@ body {
 
 .plum-blossom.active {
   color: var(--color-zhu-sha);
+  filter: drop-shadow(0 0 2px rgba(201, 55, 86, 0.3));
 }
 
 .plum-blossom.inactive {
   color: var(--color-border);
 }
 
-/* 分隔线 */
+/* 分隔线 - 带装饰 */
 .ink-divider {
-  width: 60px;
-  height: 2px;
-  background: var(--color-gu-tong);
-  margin: 1rem auto;
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gu-tong), transparent);
+  margin: 1.5rem auto;
+  position: relative;
+}
+.ink-divider::before {
+  content: '❖';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 8px;
+  color: var(--color-gu-tong);
+  background: var(--color-xuan-zhi);
+  padding: 0 6px;
+  opacity: 0.7;
+}
+
+/* 章节标题装饰 */
+.section-title {
+  position: relative;
+  display: inline-block;
+}
+.section-title::before,
+.section-title::after {
+  content: '〚';
+  color: var(--color-border);
+  font-size: 0.75em;
+  vertical-align: middle;
+}
+.section-title::after {
+  content: '〛';
+}
+
+/* 太极浮动动画 */
+@keyframes float-taiji {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(180deg); }
+}
+
+.taiji-float {
+  animation: float-taiji 8s ease-in-out infinite;
+  opacity: 0.04;
+}
+
+/* 竖排文字 */
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0.3em;
+}
+
+/* 印章效果 */
+.seal-stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid var(--color-zhu-sha);
+  border-radius: 4px;
+  color: var(--color-zhu-sha);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  transform: rotate(-5deg);
+  opacity: 0.7;
+  position: relative;
+}
+.seal-stamp::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 1px solid var(--color-zhu-sha);
+  border-radius: 2px;
+  opacity: 0.4;
+}
+
+/* 水墨晕染边缘 */
+.ink-wash-edge {
+  position: relative;
+}
+.ink-wash-edge::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: radial-gradient(ellipse, var(--color-gu-tong) 0%, transparent 70%);
+  opacity: 0.3;
 }
 
 /* 脉冲动画 */
@@ -79,4 +231,46 @@ body {
 
 .animate-pulse-glow {
   animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* 墨滴进入动画 */
+@keyframes ink-drop {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-ink-drop {
+  animation: ink-drop 0.6s ease-out forwards;
+}
+
+/* 卷轴展开 */
+@keyframes scroll-unfurl {
+  0% { max-height: 0; opacity: 0; }
+  100% { max-height: 2000px; opacity: 1; }
+}
+
+.animate-unfurl {
+  animation: scroll-unfurl 1.2s ease-out forwards;
+  overflow: hidden;
+}
+
+/* 古诗引言样式 */
+.quote-classical {
+  font-style: italic;
+  color: var(--color-gu-tong);
+  text-align: center;
+  position: relative;
+  padding: 0.5rem 1.5rem;
+}
+.quote-classical::before { content: '『'; position: absolute; left: 0; top: 0; opacity: 0.4; }
+.quote-classical::after { content: '』'; position: absolute; right: 0; bottom: 0; opacity: 0.4; }
+
+/* 结果卡片悬浮效果 */
+.fortune-card-hover {
+  transition: all 0.3s ease;
+}
+.fortune-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(139, 115, 85, 0.12);
 }

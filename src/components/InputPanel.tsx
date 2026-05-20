@@ -57,7 +57,14 @@ export default function InputPanel({ onDivine, isLoading }: InputPanelProps) {
       transition={{ duration: 0.8, delay: 0.3 }}
       className="w-full max-w-md mx-auto"
     >
-      <div className="scroll-border rounded-lg p-6 sm:p-8">
+      <div className="scroll-border rounded-lg p-6 sm:p-8 corner-ornament">
+        {/* 顶部装饰 */}
+        <div className="text-center mb-4">
+          <span className="text-xs text-[var(--color-border)] tracking-[0.3em]">
+            ─── 请书一字 ───
+          </span>
+        </div>
+
         <div className="relative">
           <input
             type="text"
@@ -66,14 +73,13 @@ export default function InputPanel({ onDivine, isLoading }: InputPanelProps) {
             onCompositionStart={() => { isComposing.current = true; }}
             onCompositionEnd={handleCompositionEnd}
             onKeyDown={(e) => e.key === 'Enter' && !isComposing.current && handleSubmit()}
-            placeholder="请输入 1-3 个汉字"
-            className="w-full text-center text-2xl sm:text-3xl tracking-[0.3em] py-4
-                       bg-white/60 border border-[var(--color-border)] rounded-md
+            placeholder="落笔生卦"
+            className="w-full text-center text-3xl sm:text-4xl tracking-[0.5em] py-5
+                       bg-transparent border-b-2 border-[var(--color-border)]
                        text-[var(--color-dan-mo)] placeholder:text-[var(--color-border)]
-                       placeholder:text-base placeholder:tracking-[0.2em]
+                       placeholder:text-lg placeholder:tracking-[0.3em]
                        focus:outline-none focus:border-[var(--color-gu-tong)]
-                       focus:ring-1 focus:ring-[var(--color-gu-tong)]
-                       transition-all duration-300"
+                       transition-all duration-500"
             maxLength={3}
             disabled={isLoading}
           />
@@ -109,12 +115,13 @@ export default function InputPanel({ onDivine, isLoading }: InputPanelProps) {
           disabled={isLoading || text.length === 0}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full mt-5 py-3 px-8 border border-[var(--color-gu-tong)]
-                     text-[var(--color-gu-tong)] text-lg tracking-[0.4em]
-                     rounded-md transition-all duration-300
-                     hover:bg-[var(--color-gu-tong)] hover:text-white
-                     disabled:opacity-40 disabled:cursor-not-allowed
-                     disabled:hover:bg-transparent disabled:hover:text-[var(--color-gu-tong)]"
+          className="w-full mt-6 py-3.5 px-8 border-2 border-[var(--color-gu-tong)]
+                     text-[var(--color-gu-tong)] text-lg tracking-[0.5em]
+                     transition-all duration-500 relative overflow-hidden
+                     hover:bg-[var(--color-gu-tong)] hover:text-white hover:shadow-lg
+                     disabled:opacity-30 disabled:cursor-not-allowed
+                     disabled:hover:bg-transparent disabled:hover:text-[var(--color-gu-tong)]
+                     disabled:hover:shadow-none"
         >
           {isLoading ? (
             <span className="flex items-center justify-center gap-2">
@@ -128,7 +135,7 @@ export default function InputPanel({ onDivine, isLoading }: InputPanelProps) {
               起卦中...
             </span>
           ) : (
-            '测 算'
+            '卜 · 测 算'
           )}
         </motion.button>
       </div>

@@ -70,21 +70,84 @@ export default function Home() {
   }, [history]);
 
   return (
-    <main className="min-h-screen px-4 py-8 sm:py-12">
+    <main className="min-h-screen px-4 py-8 sm:py-12 overflow-hidden">
+      {/* 背景装饰：浮动太极 */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
+        <div className="taiji-float absolute top-[10%] left-[5%] text-8xl text-[var(--color-gu-tong)]">☯</div>
+        <div className="taiji-float absolute bottom-[15%] right-[8%] text-6xl text-[var(--color-gu-tong)]" style={{ animationDelay: '-3s' }}>☯</div>
+        <div className="taiji-float absolute top-[45%] right-[3%] text-5xl text-[var(--color-gu-tong)]" style={{ animationDelay: '-5s' }}>☰</div>
+        <div className="taiji-float absolute bottom-[35%] left-[3%] text-5xl text-[var(--color-gu-tong)]" style={{ animationDelay: '-7s' }}>☵</div>
+        {/* 竖排古文装饰 */}
+        <div className="vertical-text absolute top-[20%] left-[2%] text-xs text-[var(--color-border)] opacity-30 hidden lg:block">
+          天行健君子以自强不息
+        </div>
+        <div className="vertical-text absolute top-[20%] right-[2%] text-xs text-[var(--color-border)] opacity-30 hidden lg:block">
+          地势坤君子以厚德载物
+        </div>
+      </div>
+
+      {/* 顶部装饰线 */}
+      <motion.div
+        initial={{ scaleX: 0 }}
+        animate={{ scaleX: 1 }}
+        transition={{ duration: 1.5, ease: 'easeInOut' }}
+        className="max-w-2xl mx-auto mb-6"
+      >
+        <div className="h-px bg-gradient-to-r from-transparent via-[var(--color-gu-tong)] to-transparent opacity-40" />
+        <div className="flex justify-center gap-3 -mt-[3px]">
+          <span className="text-[6px] text-[var(--color-border)] bg-[var(--color-xuan-zhi)] px-2">◆</span>
+        </div>
+      </motion.div>
+
       {/* 标题 */}
       <motion.header
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="text-center mb-8 sm:mb-12"
+        className="text-center mb-6 sm:mb-10"
       >
-        <h1 className="text-4xl sm:text-5xl tracking-[0.4em] text-[var(--color-dan-mo)] mb-3">
+        {/* 古诗引言 */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 1.2 }}
+          className="quote-classical text-xs sm:text-sm mb-5 max-w-xs mx-auto"
+        >
+          善易者不占，善占者不卜
+        </motion.p>
+
+        <h1 className="text-4xl sm:text-6xl tracking-[0.5em] text-[var(--color-dan-mo)] mb-3 relative inline-block">
           天机测字
         </h1>
-        <div className="ink-divider" />
-        <p className="text-sm text-[var(--color-gu-tong)] tracking-[0.3em] mt-3">
-          梅花易数 · 测字问运
+
+        <div className="flex items-center justify-center gap-3 my-4">
+          <div className="w-16 sm:w-24 h-px bg-gradient-to-r from-transparent to-[var(--color-gu-tong)] opacity-60" />
+          <span className="text-[var(--color-zhu-sha)] text-lg">☯</span>
+          <div className="w-16 sm:w-24 h-px bg-gradient-to-l from-transparent to-[var(--color-gu-tong)] opacity-60" />
+        </div>
+
+        <p className="text-xs sm:text-sm text-[var(--color-gu-tong)] tracking-[0.4em]">
+          梅花易数 · 测字问运 · 五行推演
         </p>
+
+        {/* 八卦符号装饰 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 1 }}
+          className="flex justify-center gap-2 mt-4 text-base text-[var(--color-border)]"
+        >
+          {['☰','☱','☲','☳','☴','☵','☶','☷'].map((s, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 0.4, y: 0 }}
+              transition={{ delay: 1 + i * 0.08, duration: 0.4 }}
+            >
+              {s}
+            </motion.span>
+          ))}
+        </motion.div>
       </motion.header>
 
       {/* 输入 */}

@@ -29,7 +29,7 @@ export default function FortuneCard({ aspect, index }: FortuneCardProps) {
       initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5, delay: index * 0.15 }}
-      className="scroll-border rounded-lg p-4 sm:p-5"
+      className="scroll-border rounded-lg p-4 sm:p-5 fortune-card-hover corner-ornament"
     >
       <div className="flex items-center gap-2 mb-2">
         <span className="text-xl">{aspect.icon}</span>
