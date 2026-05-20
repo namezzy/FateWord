@@ -177,13 +177,13 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8, duration: 1 }}
-          className="flex justify-center gap-2 mt-4 text-base text-[var(--color-border)]"
+          className="flex justify-center gap-2 mt-4 text-base text-[#6a5a4a]"
         >
           {['☰','☱','☲','☳','☴','☵','☶','☷'].map((s, i) => (
             <motion.span
               key={i}
               initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 0.4, y: 0 }}
+              animate={{ opacity: 0.7, y: 0 }}
               transition={{ delay: 1 + i * 0.08, duration: 0.4 }}
             >
               {s}
