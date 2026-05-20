@@ -7,6 +7,7 @@ import { type FortuneResult } from '@/lib/fortune';
 import CharacterInfoDisplay from './CharacterInfo';
 import HexagramDisplay from './HexagramDisplay';
 import FortuneCard from './FortuneCard';
+import ExportCard from './ExportCard';
 
 interface ResultPanelProps {
   divination: DivinationResult;
@@ -89,6 +90,9 @@ export default function ResultPanel({ divination, characters, fortune }: ResultP
           ))}
         </div>
       </motion.section>
+
+      {/* 导出图片 */}
+      <ExportCard divination={divination} characters={characters} fortune={fortune} />
 
       {/* 底部 */}
       <motion.div
