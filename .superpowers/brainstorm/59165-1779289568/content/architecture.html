@@ -1,0 +1,61 @@
+<h2>天机测字 — 架构方案</h2>
+<p class="subtitle">选择最适合项目的技术架构</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>客户端为主 + API 代理（推荐）</h3>
+      <p>梅花易数算法、五行逻辑、卦象计算全部在<strong>浏览器端</strong>运行，保证即时响应和流畅体验。仅 DeepSeek API 调用通过 Next.js API Route 代理（保护 API Key）。</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>优势</h4><ul>
+          <li>起卦计算即时完成，零延迟</li>
+          <li>离线也能完成基础测算</li>
+          <li>API Key 安全（服务端代理）</li>
+          <li>部署简单（Vercel 一键部署）</li>
+        </ul></div>
+        <div class="cons"><h4>不足</h4><ul>
+          <li>AI 解卦仍需网络</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>全服务端渲染（SSR）</h3>
+      <p>所有逻辑（算法 + LLM 调用）都在 Next.js Server Components / API Routes 中执行，客户端只负责展示。</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>优势</h4><ul>
+          <li>SEO 友好</li>
+          <li>客户端代码极轻</li>
+        </ul></div>
+        <div class="cons"><h4>不足</h4><ul>
+          <li>每次测算都需要网络请求</li>
+          <li>用户体验有延迟感</li>
+          <li>架构更复杂</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>纯静态 + 内置解卦</h3>
+      <p>完全不依赖 LLM，使用预写好的六十四卦解析文本。整个应用可导出为静态站点。</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>优势</h4><ul>
+          <li>零运行成本</li>
+          <li>完全离线可用</li>
+          <li>部署最简单</li>
+        </ul></div>
+        <div class="cons"><h4>不足</h4><ul>
+          <li>解卦文本固定，缺乏个性化</li>
+          <li>需要预写大量卦辞</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</div>

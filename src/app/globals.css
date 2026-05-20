@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-xuan-zhi: #F5F0EB;
+  --color-dan-mo: #2C2C2C;
+  --color-gu-tong: #8B7355;
+  --color-zhu-sha: #C93756;
+  --color-liu-li-jin: #E8B004;
+  --color-border: #D4C5B0;
+  --font-serif-cn: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-serif-cn);
+  background-color: var(--color-xuan-zhi);
+  color: var(--color-dan-mo);
+  min-height: 100vh;
+}
+
+::selection {
+  background-color: var(--color-zhu-sha);
+  color: white;
+}
+
+/* 水墨纹理背景 */
+.ink-bg {
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(139, 115, 85, 0.03) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(139, 115, 85, 0.02) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(201, 55, 86, 0.01) 0%, transparent 50%);
+}
+
+/* 古卷边框 */
+.scroll-border {
+  border: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+/* 八卦符号样式 */
+.trigram-symbol {
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--color-dan-mo);
+}
+
+/* 梅花评分 */
+.plum-blossom {
+  display: inline-block;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.plum-blossom.active {
+  color: var(--color-zhu-sha);
+}
+
+.plum-blossom.inactive {
+  color: var(--color-border);
+}
+
+/* 分隔线 */
+.ink-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--color-gu-tong);
+  margin: 1rem auto;
+}
+
+/* 脉冲动画 */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 55, 86, 0.2); }
+  50% { box-shadow: 0 0 20px 4px rgba(201, 55, 86, 0.1); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}

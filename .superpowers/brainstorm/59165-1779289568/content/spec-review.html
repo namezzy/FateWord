@@ -1,0 +1,108 @@
+<h2>天机测字 — 设计规格总览</h2>
+<p class="subtitle">请确认以下所有设计决定，然后我们进入实现阶段</p>
+
+<div class="section">
+  <h3>🏗️ 架构</h3>
+  <p><strong>客户端为主 + API 代理</strong> — 梅花易数算法浏览器端运行，DeepSeek API 通过 Next.js API Route 代理</p>
+</div>
+
+<div class="section">
+  <h3>🎨 视觉风格</h3>
+  <p><strong>水墨淡雅</strong> — 宣纸色背景（#F5F0EB），淡墨色文字（#2C2C2C），古铜色点缀（#8B7355），朱砂红强调（#C93756）</p>
+</div>
+
+<div class="section">
+  <h3>📐 页面布局</h3>
+  <p><strong>卷轴式单页</strong> — 纵向滚动，输入框顶部居中，结果依次向下展开</p>
+</div>
+
+<div class="section">
+  <h3>🔧 技术决定</h3>
+  <ul>
+    <li><strong>框架：</strong>Next.js 14 (App Router) + React + TypeScript</li>
+    <li><strong>样式：</strong>Tailwind CSS + Framer Motion</li>
+    <li><strong>汉字库：</strong>cnchar（笔画数、拼音）</li>
+    <li><strong>LLM：</strong>DeepSeek（通过 API Route 代理）</li>
+    <li><strong>单字拆分：</strong>简化方案（总笔画前半/后半）</li>
+    <li><strong>数据持久化：</strong>localStorage 保存历史</li>
+    <li><strong>适配：</strong>移动端优先响应式</li>
+    <li><strong>字体：</strong>Noto Serif SC（衬线体）</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h3>📦 核心模块</h3>
+  <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+    <tr style="border-bottom: 1px solid #d4c5b0;">
+      <td style="padding: 8px; color: #8b7355; font-weight: bold;">bagua.ts</td>
+      <td style="padding: 8px;">八卦数据（名称、符号、五行、先天数）</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #d4c5b0;">
+      <td style="padding: 8px; color: #8b7355; font-weight: bold;">hexagrams.ts</td>
+      <td style="padding: 8px;">六十四卦查找表（名称、卦辞、Unicode 符号）</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #d4c5b0;">
+      <td style="padding: 8px; color: #8b7355; font-weight: bold;">meihua.ts</td>
+      <td style="padding: 8px;">梅花易数核心算法（起卦、动爻、互卦、变卦）</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #d4c5b0;">
+      <td style="padding: 8px; color: #8b7355; font-weight: bold;">wuxing.ts</td>
+      <td style="padding: 8px;">五行生克关系 + 运势权重计算</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #d4c5b0;">
+      <td style="padding: 8px; color: #8b7355; font-weight: bold;">ganzhi.ts</td>
+      <td style="padding: 8px;">天干地支（当前日期的干支计算）</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #d4c5b0;">
+      <td style="padding: 8px; color: #8b7355; font-weight: bold;">character.ts</td>
+      <td style="padding: 8px;">cnchar 封装（笔画、拼音、五行映射）</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; color: #8b7355; font-weight: bold;">fortune.ts</td>
+      <td style="padding: 8px;">运势文本生成 + DeepSeek API 调用</td>
+    </tr>
+  </table>
+</div>
+
+<div class="section">
+  <h3>🖼️ UI 组件</h3>
+  <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+    <tr style="border-bottom: 1px solid #d4c5b0;">
+      <td style="padding: 8px; color: #8b7355; font-weight: bold;">InputPanel</td>
+      <td style="padding: 8px;">输入框 + 测算按钮（带起卦动画）</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #d4c5b0;">
+      <td style="padding: 8px; color: #8b7355; font-weight: bold;">CharacterInfo</td>
+      <td style="padding: 8px;">字解展示（拼音、笔画、五行）</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #d4c5b0;">
+      <td style="padding: 8px; color: #8b7355; font-weight: bold;">HexagramDisplay</td>
+      <td style="padding: 8px;">卦象展示（本卦、互卦、变卦 + 八卦符号）</td>
+    </tr>
+    <tr style="border-bottom: 1px solid #d4c5b0;">
+      <td style="padding: 8px; color: #8b7355; font-weight: bold;">FortuneCard</td>
+      <td style="padding: 8px;">四柱运势卡片（事业/财运/感情/健康 + 梅花评分）</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; color: #8b7355; font-weight: bold;">ResultPanel</td>
+      <td style="padding: 8px;">结果容器（组合以上组件 + 卷轴展开动画）</td>
+    </tr>
+  </table>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="approve" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>确认，开始实现</h3>
+      <p>以上设计规格符合预期，进入下一阶段</p>
+    </div>
+  </div>
+  <div class="option" data-choice="revise" onclick="toggleSelect(this)">
+    <div class="letter">✎</div>
+    <div class="content">
+      <h3>需要修改</h3>
+      <p>某些部分需要调整，我会在终端中说明</p>
+    </div>
+  </div>
+</div>
