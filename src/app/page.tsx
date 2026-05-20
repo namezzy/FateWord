@@ -292,7 +292,7 @@ export default function Home() {
         <div className="inline-flex flex-col items-center gap-2">
           <div className="w-20 h-px bg-gradient-to-r from-transparent via-[var(--color-gu-tong)] to-transparent" />
           <div className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#6a5a4a]">
-            <span>Crafted by <span className="text-[#3a3a3a] font-semibold">Levi</span></span>
+            <span>Crafted by <a href="https://github.com/namezzy" target="_blank" rel="noopener noreferrer" className="text-[#3a3a3a] font-semibold hover:text-[var(--color-zhu-sha)] transition-colors">Levi</a></span>
             <span className="mx-2">·</span>
             <a href="https://github.com/namezzy/FateWord" target="_blank" rel="noopener noreferrer"
                className="text-[#3a3a3a] font-semibold hover:text-[var(--color-zhu-sha)] transition-colors">
