@@ -294,7 +294,10 @@ export default function Home() {
           <div className="font-mono text-[11px] tracking-[0.2em] uppercase text-[#6a5a4a]">
             <span>Crafted by <span className="text-[#3a3a3a] font-semibold">Levi</span></span>
             <span className="mx-2">·</span>
-            <span>Powered by <span className="text-[#3a3a3a] font-semibold">Claude Opus</span></span>
+            <a href="https://github.com/namezzy/FateWord" target="_blank" rel="noopener noreferrer"
+               className="text-[#3a3a3a] font-semibold hover:text-[var(--color-zhu-sha)] transition-colors">
+              GitHub
+            </a>
             <span className="mx-2">·</span>
             <span>© 2026</span>
           </div>
