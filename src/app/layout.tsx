@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import Providers from '@/components/Providers';
 
 export const metadata: Metadata = {
   title: '天机测字 — 梅花易数测字问运',
@@ -21,7 +22,7 @@ export default function RootLayout({
         />
       </head>
       <body className="ink-bg min-h-screen antialiased">
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

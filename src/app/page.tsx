@@ -4,9 +4,11 @@ import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import InputPanel from '@/components/InputPanel';
 import ResultPanel from '@/components/ResultPanel';
+import LanguageSwitch from '@/components/LanguageSwitch';
 import { analyzeCharacters, type CharacterInfo } from '@/lib/character';
 import { divine, type DivinationResult } from '@/lib/meihua';
 import { generateFortune, type FortuneResult } from '@/lib/fortune';
+import { useLanguage } from '@/lib/i18n';
 
 interface HistoryEntry {
   id: string;
@@ -16,6 +18,7 @@ interface HistoryEntry {
 }
 
 export default function Home() {
+  const { locale, t } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
   const [characters, setCharacters] = useState<CharacterInfo[] | null>(null);
   const [divination, setDivination] = useState<DivinationResult | null>(null);
@@ -47,7 +50,7 @@ export default function Home() {
       setDivination(result);
 
       // 3. 生成运势
-      const fortuneResult = generateFortune(result, charInfos);
+      const fortuneResult = generateFortune(result, charInfos, locale);
       setFortune(fortuneResult);
 
       // 4. 保存历史
@@ -67,10 +70,12 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
-  }, [history]);
+  }, [history, locale]);
 
   return (
     <main className="min-h-screen px-4 py-8 sm:py-12 overflow-hidden">
+      <LanguageSwitch />
+
       {/* 背景装饰：太极八卦图 */}
       <div className="taiji-bg" aria-hidden="true">
         {/* 中心太极图 */}
@@ -121,10 +126,10 @@ export default function Home() {
 
         {/* 竖排古文装饰 */}
         <div className="vertical-text absolute top-[15%] left-[2%] text-xs text-[var(--color-gu-tong)] opacity-[0.06] hidden lg:block tracking-[0.5em]">
-          天行健君子以自强不息
+          {t('app.verticalLeft')}
         </div>
         <div className="vertical-text absolute top-[15%] right-[2%] text-xs text-[var(--color-gu-tong)] opacity-[0.06] hidden lg:block tracking-[0.5em]">
-          地势坤君子以厚德载物
+          {t('app.verticalRight')}
         </div>
       </div>
 
@@ -155,11 +160,11 @@ export default function Home() {
           transition={{ delay: 0.3, duration: 1.2 }}
           className="quote-classical text-xs sm:text-sm mb-5 max-w-xs mx-auto"
         >
-          善易者不占，善占者不卜
+          {t('app.quote')}
         </motion.p>
 
         <h1 className="text-4xl sm:text-6xl tracking-[0.5em] text-[var(--color-dan-mo)] mb-3 relative inline-block">
-          天机测字
+          {t('app.title')}
         </h1>
 
         <div className="flex items-center justify-center gap-3 my-4">
@@ -169,7 +174,7 @@ export default function Home() {
         </div>
 
         <p className="text-xs sm:text-sm text-[var(--color-gu-tong)] tracking-[0.4em]">
-          梅花易数 · 测字问运 · 五行推演
+          {t('app.subtitle')}
         </p>
 
         {/* 八卦符号装饰 */}
@@ -212,7 +217,7 @@ export default function Home() {
               ☯
             </motion.div>
             <p className="mt-4 text-sm text-[var(--color-gu-tong)] tracking-[0.2em]">
-              正在起卦，请稍候...
+              {t('app.loading')}
             </p>
           </motion.div>
         )}
@@ -249,7 +254,7 @@ export default function Home() {
             className="w-full text-center text-xs text-[#6a5a4a]
                        hover:text-[var(--color-dan-mo)] transition-colors"
           >
-            {showHistory ? '收起' : '展开'}历史记录 ({history.length})
+            {showHistory ? t('history.collapse') : t('history.expand')}{t('history.label')} ({history.length})
           </button>
           <AnimatePresence>
             {showHistory && (

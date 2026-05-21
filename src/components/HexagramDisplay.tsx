@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { type DivinationResult } from '@/lib/meihua';
 import { type Trigram } from '@/lib/bagua';
 import { type Hexagram } from '@/lib/hexagrams';
+import { useLanguage } from '@/lib/i18n';
 
 interface HexagramDisplayProps {
   result: DivinationResult;
@@ -35,7 +36,7 @@ function HexagramCard({ hexagram, label, delay = 0 }: { hexagram: Hexagram; labe
 }
 
 // 绘制六爻图
-function YaoLines({ result }: { result: DivinationResult }) {
+function YaoLines({ result, movingLabel }: { result: DivinationResult; movingLabel: string }) {
   const lines = [
     ...result.lowerTrigram.lines,
     ...result.upperTrigram.lines,
@@ -76,7 +77,7 @@ function YaoLines({ result }: { result: DivinationResult }) {
               </div>
             )}
             {isMoving && (
-              <span className="text-[var(--color-zhu-sha)] text-xs ml-1">← 动</span>
+              <span className="text-[var(--color-zhu-sha)] text-xs ml-1">{movingLabel}</span>
             )}
           </motion.div>
         );
@@ -86,6 +87,7 @@ function YaoLines({ result }: { result: DivinationResult }) {
 }
 
 export default function HexagramDisplay({ result }: HexagramDisplayProps) {
+  const { t } = useLanguage();
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -94,26 +96,26 @@ export default function HexagramDisplay({ result }: HexagramDisplayProps) {
       className="w-full max-w-lg mx-auto"
     >
       <h3 className="text-center text-[var(--color-gu-tong)] tracking-[0.3em] mb-4 text-sm">
-        — 卦 象 —
+        {t('hex.title')}
       </h3>
 
       {/* 上下卦 */}
       <div className="flex justify-center gap-8 mb-4">
-        <TrigramSymbol trigram={result.upperTrigram} label="上卦" />
+        <TrigramSymbol trigram={result.upperTrigram} label={t('hex.upper')} />
         <div className="flex flex-col items-center justify-center">
-          <YaoLines result={result} />
+          <YaoLines result={result} movingLabel={t('hex.moving')} />
           <div className="text-xs text-[var(--color-gu-tong)]">
-            动{result.movingLine}爻
+            {t('hex.movingLine').replace('{n}', String(result.movingLine))}
           </div>
         </div>
-        <TrigramSymbol trigram={result.lowerTrigram} label="下卦" />
+        <TrigramSymbol trigram={result.lowerTrigram} label={t('hex.lower')} />
       </div>
 
       {/* 本卦 / 互卦 / 变卦 */}
       <div className="flex gap-3">
-        <HexagramCard hexagram={result.originalHex} label="本 卦" delay={0.3} />
-        <HexagramCard hexagram={result.mutualHex} label="互 卦" delay={0.45} />
-        <HexagramCard hexagram={result.changedHex} label="变 卦" delay={0.6} />
+        <HexagramCard hexagram={result.originalHex} label={t('hex.original')} delay={0.3} />
+        <HexagramCard hexagram={result.mutualHex} label={t('hex.mutual')} delay={0.45} />
+        <HexagramCard hexagram={result.changedHex} label={t('hex.changed')} delay={0.6} />
       </div>
 
       {/* 卦辞 */}

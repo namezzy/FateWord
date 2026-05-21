@@ -7,6 +7,7 @@ import { type DivinationResult } from '@/lib/meihua';
 import { type CharacterInfo } from '@/lib/character';
 import { type FortuneResult } from '@/lib/fortune';
 import { getWuXingColor } from '@/lib/wuxing';
+import { useLanguage } from '@/lib/i18n';
 
 interface ExportCardProps {
   divination: DivinationResult;
@@ -15,6 +16,7 @@ interface ExportCardProps {
 }
 
 export default function ExportCard({ divination, characters, fortune }: ExportCardProps) {
+  const { t } = useLanguage();
   const cardRef = useRef<HTMLDivElement>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
@@ -56,7 +58,7 @@ export default function ExportCard({ divination, characters, fortune }: ExportCa
                    transition-all duration-300
                    hover:bg-[var(--color-zhu-sha)] hover:text-white"
       >
-        📷 保存测算结果为图片
+        {t('export.button')}
       </motion.button>
 
       {/* 预览弹窗 */}
@@ -99,14 +101,14 @@ export default function ExportCard({ divination, characters, fortune }: ExportCa
               {/* 标题 */}
               <div style={{ textAlign: 'center', marginBottom: '20px' }}>
                 <div style={{ fontSize: '28px', letterSpacing: '0.5em', color: '#1a1a1a', fontWeight: 700 }}>
-                  天机测字
+                  {t('app.title')}
                 </div>
                 <div style={{
                   width: '40px', height: '1px', margin: '8px auto',
                   background: 'linear-gradient(90deg, transparent, #8B7355, transparent)',
                 }} />
                 <div style={{ fontSize: '11px', color: '#8B7355', letterSpacing: '0.3em' }}>
-                  梅花易数 · 测字问运
+                  {t('app.subtitle')}
                 </div>
               </div>
 
@@ -124,7 +126,7 @@ export default function ExportCard({ divination, characters, fortune }: ExportCa
                       {info.traditionalChar}
                     </div>
                     {info.traditionalChar !== info.char && (
-                      <div style={{ fontSize: '10px', color: '#8B7355', marginBottom: '2px' }}>简：{info.char}</div>
+                      <div style={{ fontSize: '10px', color: '#8B7355', marginBottom: '2px' }}>{t('char.simplified')}{info.char}</div>
                     )}
                     <div style={{ fontSize: '11px', color: '#5a4a3a', marginBottom: '6px' }}>{info.pinyin}</div>
                     <div style={{ width: '30px', height: '1px', background: '#D4C5B0', margin: '0 auto 6px' }} />
@@ -143,11 +145,11 @@ export default function ExportCard({ divination, characters, fortune }: ExportCa
                 background: 'rgba(255,255,255,0.4)',
               }}>
                 <div style={{ fontSize: '10px', color: '#8B7355', letterSpacing: '0.3em', marginBottom: '12px' }}>
-                  ─── 卦 象 ───
+                  {t('export.hexSection')}
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginBottom: '8px' }}>
                   <div>
-                    <div style={{ fontSize: '10px', color: '#8B7355' }}>上卦</div>
+                    <div style={{ fontSize: '10px', color: '#8B7355' }}>{t('hex.upper')}</div>
                     <div style={{ fontSize: '24px' }}>{divination.upperTrigram.symbol}</div>
                     <div style={{ fontSize: '11px' }}>{divination.upperTrigram.name}</div>
                   </div>
@@ -155,7 +157,7 @@ export default function ExportCard({ divination, characters, fortune }: ExportCa
                     <div style={{ fontSize: '20px', color: '#C93756' }}>☯</div>
                   </div>
                   <div>
-                    <div style={{ fontSize: '10px', color: '#8B7355' }}>下卦</div>
+                    <div style={{ fontSize: '10px', color: '#8B7355' }}>{t('hex.lower')}</div>
                     <div style={{ fontSize: '24px' }}>{divination.lowerTrigram.symbol}</div>
                     <div style={{ fontSize: '11px' }}>{divination.lowerTrigram.name}</div>
                   </div>
@@ -164,11 +166,11 @@ export default function ExportCard({ divination, characters, fortune }: ExportCa
                   display: 'flex', justifyContent: 'center', gap: '12px', fontSize: '12px',
                   padding: '8px 0', borderTop: '1px solid #E8DED0', marginTop: '8px',
                 }}>
-                  <span><span style={{ color: '#8B7355' }}>本卦</span> {divination.originalHex.name}</span>
+                  <span><span style={{ color: '#8B7355' }}>{t('hex.original')}</span> {divination.originalHex.name}</span>
                   <span style={{ color: '#D4C5B0' }}>|</span>
-                  <span><span style={{ color: '#8B7355' }}>互卦</span> {divination.mutualHex.name}</span>
+                  <span><span style={{ color: '#8B7355' }}>{t('hex.mutual')}</span> {divination.mutualHex.name}</span>
                   <span style={{ color: '#D4C5B0' }}>|</span>
-                  <span><span style={{ color: '#8B7355' }}>变卦</span> {divination.changedHex.name}</span>
+                  <span><span style={{ color: '#8B7355' }}>{t('hex.changed')}</span> {divination.changedHex.name}</span>
                 </div>
                 <div style={{ fontSize: '11px', color: '#5a4a3a', marginTop: '6px', fontStyle: 'italic' }}>
                   「{divination.originalHex.description}」
@@ -182,7 +184,7 @@ export default function ExportCard({ divination, characters, fortune }: ExportCa
                 background: 'rgba(255,255,255,0.4)', position: 'relative',
               }}>
                 <div style={{ fontSize: '10px', color: '#8B7355', letterSpacing: '0.3em', textAlign: 'center', marginBottom: '10px' }}>
-                  ─── 批 语 ───
+                  {t('export.commentSection')}
                 </div>
                 {/* 印章 */}
                 <div style={{
@@ -191,7 +193,7 @@ export default function ExportCard({ divination, characters, fortune }: ExportCa
                   borderRadius: '3px', display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: '12px', color: '#C93756', fontWeight: 700,
                   transform: 'rotate(-5deg)', opacity: 0.6,
-                }}>卦</div>
+                }}>{t('export.seal')}</div>
                 <div style={{ fontSize: '12px', lineHeight: '2', whiteSpace: 'pre-line', paddingRight: '36px' }}>
                   {fortune.overallFortune}
                 </div>
@@ -233,7 +235,7 @@ export default function ExportCard({ divination, characters, fortune }: ExportCa
                   {fortune.dateGanZhi.label}日 · {fortune.wuxingRelation}
                 </div>
                 <div style={{ fontSize: '9px', color: '#8B7355' }}>
-                  天机测字 · 仅供娱乐
+                  {t('export.footer')}
                 </div>
               </div>
 
@@ -256,14 +258,14 @@ export default function ExportCard({ divination, characters, fortune }: ExportCa
                 className="flex-1 py-2.5 bg-[var(--color-zhu-sha)] text-white text-sm tracking-[0.2em]
                            rounded transition-all hover:opacity-90 disabled:opacity-50"
               >
-                {isExporting ? '正在生成...' : '💾 保存图片'}
+                {isExporting ? t('export.saving') : t('export.save')}
               </button>
               <button
                 onClick={() => setShowPreview(false)}
                 className="px-6 py-2.5 border border-[var(--color-border)] text-sm text-[#5a4a3a]
                            rounded transition-all hover:bg-white/50"
               >
-                关闭
+                {t('export.close')}
               </button>
             </div>
           </motion.div>

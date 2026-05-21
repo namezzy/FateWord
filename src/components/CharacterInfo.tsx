@@ -3,12 +3,14 @@
 import { motion } from 'framer-motion';
 import { type CharacterInfo } from '@/lib/character';
 import { getWuXingColor, getWuXingEmoji } from '@/lib/wuxing';
+import { useLanguage } from '@/lib/i18n';
 
 interface CharacterInfoDisplayProps {
   characters: CharacterInfo[];
 }
 
 export default function CharacterInfoDisplay({ characters }: CharacterInfoDisplayProps) {
+  const { t } = useLanguage();
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -17,7 +19,7 @@ export default function CharacterInfoDisplay({ characters }: CharacterInfoDispla
       className="w-full max-w-md mx-auto"
     >
       <h3 className="text-center text-[var(--color-gu-tong)] tracking-[0.3em] mb-4 text-sm">
-        — 字 解 —
+        {t('char.title')}
       </h3>
       <div className="flex justify-center gap-4 sm:gap-6">
         {characters.map((info, i) => (
@@ -35,7 +37,7 @@ export default function CharacterInfoDisplay({ characters }: CharacterInfoDispla
             {/* 简体小字（如果不同） */}
             {info.traditionalChar !== info.char && (
               <div className="text-xs text-[#8B7355] mb-1">
-                简：{info.char}
+                {t('char.simplified')}{info.char}
               </div>
             )}
             <div className="text-sm text-[#5a4a3a] mb-1 font-semibold">
@@ -44,13 +46,13 @@ export default function CharacterInfoDisplay({ characters }: CharacterInfoDispla
             <div className="ink-divider !my-2" />
             <div className="text-xs text-[#3a3a3a] space-y-1 font-medium">
               <div>
-                繁体笔画：<span className="font-bold text-[#1a1a1a]">{info.traditionalStrokes}</span>
+                {t('char.traditionalStrokes')}<span className="font-bold text-[#1a1a1a]">{info.traditionalStrokes}</span>
                 {info.traditionalStrokes !== info.strokes && (
-                  <span className="text-[#8B7355] ml-1">(简{info.strokes})</span>
+                  <span className="text-[#8B7355] ml-1">({t('char.simplifiedNote')}{info.strokes})</span>
                 )}
               </div>
               <div className="flex items-center justify-center gap-1">
-                五行：
+                {t('char.wuxing')}
                 <span
                   className="font-bold"
                   style={{ color: getWuXingColor(info.wuxing) }}

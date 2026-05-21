@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '@/lib/i18n';
 
 interface InputPanelProps {
   onDivine: (text: string) => void;
@@ -9,6 +10,7 @@ interface InputPanelProps {
 }
 
 export default function InputPanel({ onDivine, isLoading }: InputPanelProps) {
+  const { t } = useLanguage();
   const [text, setText] = useState('');
   const [error, setError] = useState('');
   const isComposing = useRef(false);
@@ -24,7 +26,7 @@ export default function InputPanel({ onDivine, isLoading }: InputPanelProps) {
       setText(chinese);
       setError('');
     } else {
-      setError('最多输入 3 个汉字');
+      setError(t('input.errorMax'));
     }
   };
 
@@ -37,13 +39,13 @@ export default function InputPanel({ onDivine, isLoading }: InputPanelProps) {
       setError('');
     } else {
       setText(chinese.slice(0, 3));
-      setError('最多输入 3 个汉字');
+      setError(t('input.errorMax'));
     }
   };
 
   const handleSubmit = () => {
     if (text.length === 0) {
-      setError('请输入至少 1 个汉字');
+      setError(t('input.errorMin'));
       return;
     }
     setError('');
@@ -61,7 +63,7 @@ export default function InputPanel({ onDivine, isLoading }: InputPanelProps) {
         {/* 顶部装饰 */}
         <div className="text-center mb-4">
           <span className="text-xs text-[var(--color-border)] tracking-[0.3em]">
-            ─── 请书一字 ───
+            {t('input.prompt')}
           </span>
         </div>
 
@@ -73,7 +75,7 @@ export default function InputPanel({ onDivine, isLoading }: InputPanelProps) {
             onCompositionStart={() => { isComposing.current = true; }}
             onCompositionEnd={handleCompositionEnd}
             onKeyDown={(e) => e.key === 'Enter' && !isComposing.current && handleSubmit()}
-            placeholder="落笔生卦"
+            placeholder={t('input.placeholder')}
             className="w-full text-center text-3xl sm:text-4xl tracking-[0.5em] py-5
                        bg-transparent border-b-2 border-[var(--color-border)]
                        text-[var(--color-dan-mo)] placeholder:text-[var(--color-border)]
@@ -132,10 +134,10 @@ export default function InputPanel({ onDivine, isLoading }: InputPanelProps) {
               >
                 ☯
               </motion.span>
-              起卦中...
+              {t('input.loading')}
             </span>
           ) : (
-            '卜 · 测 算'
+            t('input.submit')
           )}
         </motion.button>
       </div>

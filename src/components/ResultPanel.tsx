@@ -8,6 +8,7 @@ import CharacterInfoDisplay from './CharacterInfo';
 import HexagramDisplay from './HexagramDisplay';
 import FortuneCard from './FortuneCard';
 import ExportCard from './ExportCard';
+import { useLanguage } from '@/lib/i18n';
 
 interface ResultPanelProps {
   divination: DivinationResult;
@@ -16,6 +17,7 @@ interface ResultPanelProps {
 }
 
 export default function ResultPanel({ divination, characters, fortune }: ResultPanelProps) {
+  const { t } = useLanguage();
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -52,7 +54,7 @@ export default function ResultPanel({ divination, characters, fortune }: ResultP
         transition={{ duration: 0.6, delay: 0.4 }}
       >
         <h3 className="text-center text-[var(--color-gu-tong)] tracking-[0.3em] mb-4 text-sm">
-          — 批 语 —
+          {t('result.commentary')}
         </h3>
         <div className="scroll-border rounded-lg p-5 sm:p-6 relative corner-ornament">
           {/* 印章装饰 */}
@@ -64,7 +66,7 @@ export default function ResultPanel({ divination, characters, fortune }: ResultP
           </div>
           <div className="mt-4 pt-3 border-t border-[var(--color-border-light,var(--color-border))] flex justify-between items-center">
             <span className="text-xs text-[var(--color-gu-tong)]">
-              ☰ 梅花易数
+              {t('result.meihua')}
             </span>
             <span className="text-xs text-[var(--color-gu-tong)]">
               {fortune.dateGanZhi.label}日 · {fortune.wuxingRelation}
@@ -82,7 +84,7 @@ export default function ResultPanel({ divination, characters, fortune }: ResultP
         transition={{ duration: 0.6, delay: 0.6 }}
       >
         <h3 className="text-center text-[var(--color-gu-tong)] tracking-[0.3em] mb-4 text-sm">
-          — 四 柱 运 势 —
+          {t('result.fourPillars')}
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {fortune.aspects.map((aspect, i) => (
@@ -106,9 +108,9 @@ export default function ResultPanel({ divination, characters, fortune }: ResultP
           <span className="text-[var(--color-gu-tong)] text-sm">☯</span>
           <div className="w-12 h-px bg-gradient-to-l from-transparent to-[var(--color-gu-tong)]" />
         </div>
-        <p className="text-xs text-[#5a4a3a]">此测算结果仅供娱乐参考</p>
+        <p className="text-xs text-[#5a4a3a]">{t('result.disclaimer')}</p>
         <p className="text-xs text-[#6a5a4a] tracking-[0.2em] italic">
-          易曰：「天垂象，见吉凶，圣人象之」
+          {t('result.yijing')}
         </p>
       </motion.div>
     </motion.div>
