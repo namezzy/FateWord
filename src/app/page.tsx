@@ -38,10 +38,10 @@ export default function Home() {
       const charInfos = await analyzeCharacters(text);
       setCharacters(charInfos);
 
-      // 2. 起卦
+      // 2. 起卦（使用繁体笔画）
       const input = {
-        characters: charInfos.map(c => c.char),
-        strokeCounts: charInfos.map(c => c.strokes),
+        characters: charInfos.map(c => c.traditionalChar),
+        strokeCounts: charInfos.map(c => c.traditionalStrokes),
       };
       const result = divine(input);
       setDivination(result);

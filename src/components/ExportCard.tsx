@@ -120,13 +120,16 @@ export default function ExportCard({ divination, characters, fortune }: ExportCa
                     padding: '12px 16px', textAlign: 'center',
                     background: 'rgba(255,255,255,0.5)', minWidth: '80px',
                   }}>
-                    <div style={{ fontSize: '32px', fontWeight: 700, color: '#1a1a1a', marginBottom: '4px' }}>
-                      {info.char}
+                    <div style={{ fontSize: '32px', fontWeight: 700, color: '#1a1a1a', marginBottom: '2px' }}>
+                      {info.traditionalChar}
                     </div>
+                    {info.traditionalChar !== info.char && (
+                      <div style={{ fontSize: '10px', color: '#8B7355', marginBottom: '2px' }}>简：{info.char}</div>
+                    )}
                     <div style={{ fontSize: '11px', color: '#5a4a3a', marginBottom: '6px' }}>{info.pinyin}</div>
                     <div style={{ width: '30px', height: '1px', background: '#D4C5B0', margin: '0 auto 6px' }} />
                     <div style={{ fontSize: '10px', color: '#3a3a3a' }}>
-                      {info.strokes}画 ·{' '}
+                      {info.traditionalStrokes}画 ·{' '}
                       <span style={{ color: getWuXingColor(info.wuxing), fontWeight: 600 }}>{info.wuxing}</span>
                     </div>
                   </div>
