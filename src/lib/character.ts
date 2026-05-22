@@ -75,10 +75,12 @@ async function loadCnchar(): Promise<void> {
   if (cncharLoaded) return;
   try {
     cncharModule = (await import('cnchar')).default;
-    // 加载繁体插件
+    // 加载繁体插件 — cnchar-trad 提供 install() 方法注册
     try {
-      const tradPlugin = (await import('cnchar-trad')).default;
-      if (tradPlugin) {
+      const tradPlugin = (await import('cnchar-trad')).default || await import('cnchar-trad');
+      if (tradPlugin?.install) {
+        tradPlugin.install(cncharModule);
+      } else if (typeof tradPlugin === 'function') {
         (tradPlugin as any)(cncharModule);
       }
       cncharTradLoaded = true;
@@ -141,10 +143,9 @@ const TRADITIONAL_STROKE_FALLBACK: Record<string, number> = {
 export function toTraditional(char: string): string {
   if (cncharTradLoaded && cncharModule) {
     try {
-      const result = cncharModule.convert?.toTrad?.(char) ?? cncharModule.spell?.(char);
-      // cnchar-trad 提供 convert.toTrad 方法
-      if (typeof cncharModule.convert?.toTrad === 'function') {
-        const trad = cncharModule.convert.toTrad(char);
+      // cnchar-trad 注册后提供 convert.simpleToTrad 方法
+      if (typeof cncharModule.convert?.simpleToTrad === 'function') {
+        const trad = cncharModule.convert.simpleToTrad(char);
         if (trad && typeof trad === 'string' && trad.length > 0) return trad;
       }
     } catch { /* fallback */ }
