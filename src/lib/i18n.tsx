@@ -72,6 +72,11 @@ const translations: Record<string, Record<Locale, string>> = {
   'ai.success': { 'zh-CN': '✨ AI 解卦（DeepSeek）', 'zh-TW': '✨ AI 解卦（DeepSeek）', 'en': '✨ AI Reading (DeepSeek)' },
   'ai.failed': { 'zh-CN': 'AI 解卦失败，显示本地结果', 'zh-TW': 'AI 解卦失敗，顯示本地結果', 'en': 'AI reading failed, showing local result' },
   'ai.desc': { 'zh-CN': '使用 DeepSeek 大模型生成更详细的运势解读', 'zh-TW': '使用 DeepSeek 大模型生成更詳細的運勢解讀', 'en': 'Use DeepSeek LLM for a more detailed fortune reading' },
+
+  // History actions
+  'history.clearAll': { 'zh-CN': '清空全部', 'zh-TW': '清空全部', 'en': 'Clear All' },
+  'history.confirmClear': { 'zh-CN': '确认清空？', 'zh-TW': '確認清空？', 'en': 'Confirm?' },
+  'history.delete': { 'zh-CN': '删除', 'zh-TW': '刪除', 'en': 'Delete' },
 };
 
 interface LanguageContextType {

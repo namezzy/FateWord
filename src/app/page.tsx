@@ -34,6 +34,7 @@ export default function Home() {
     return [];
   });
   const [showHistory, setShowHistory] = useState(false);
+  const [confirmClearAll, setConfirmClearAll] = useState(false);
 
   const handleDivine = useCallback(async (text: string) => {
     setIsLoading(true);
@@ -134,6 +135,25 @@ export default function Home() {
       setAiLoading(false);
     }
   }, [divination, characters, fortune, aiLoading]);
+
+  // 删除单条历史记录
+  const handleDeleteEntry = useCallback((id: string) => {
+    const newHistory = history.filter(e => e.id !== id);
+    setHistory(newHistory);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('fateword_history', JSON.stringify(newHistory));
+    }
+  }, [history]);
+
+  // 清空全部历史记录
+  const handleClearAll = useCallback(() => {
+    setHistory([]);
+    setShowHistory(false);
+    setConfirmClearAll(false);
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('fateword_history');
+    }
+  }, []);
 
   return (
     <main className="min-h-screen px-4 py-8 sm:py-12 overflow-hidden">
@@ -357,7 +377,7 @@ export default function Home() {
           className="max-w-md mx-auto mt-12"
         >
           <button
-            onClick={() => setShowHistory(!showHistory)}
+            onClick={() => { setShowHistory(!showHistory); setConfirmClearAll(false); }}
             className="w-full text-center text-xs text-[#6a5a4a]
                        hover:text-[var(--color-dan-mo)] transition-colors"
           >
@@ -371,26 +391,67 @@ export default function Home() {
                 exit={{ height: 0, opacity: 0 }}
                 className="overflow-hidden mt-2"
               >
+                {/* 清空全部按钮 */}
+                <div className="flex justify-end mb-2">
+                  {confirmClearAll ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-[var(--color-zhu-sha)]">{t('history.confirmClear')}</span>
+                      <button
+                        onClick={handleClearAll}
+                        className="text-xs px-2 py-0.5 border border-[var(--color-zhu-sha)] text-[var(--color-zhu-sha)]
+                                   hover:bg-[var(--color-zhu-sha)] hover:text-white transition-colors rounded"
+                      >
+                        ✓
+                      </button>
+                      <button
+                        onClick={() => setConfirmClearAll(false)}
+                        className="text-xs px-2 py-0.5 border border-[var(--color-border)] text-[#6a5a4a]
+                                   hover:bg-white/50 transition-colors rounded"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setConfirmClearAll(true)}
+                      className="text-xs text-[#8a7a6a] hover:text-[var(--color-zhu-sha)] transition-colors"
+                    >
+                      {t('history.clearAll')}
+                    </button>
+                  )}
+                </div>
+
                 <div className="scroll-border rounded-lg divide-y divide-[var(--color-border)]">
                   {history.map((entry) => (
-                    <button
+                    <div
                       key={entry.id}
-                      onClick={() => handleDivine(entry.text)}
-                      className="w-full px-4 py-3 flex justify-between items-center
-                                 hover:bg-white/30 transition-colors text-left"
+                      className="flex items-center hover:bg-white/30 transition-colors"
                     >
-                      <div>
-                        <span className="text-base text-[var(--color-dan-mo)] tracking-[0.2em]">
-                          {entry.text}
+                      <button
+                        onClick={() => handleDivine(entry.text)}
+                        className="flex-1 px-4 py-3 flex justify-between items-center text-left"
+                      >
+                        <div>
+                          <span className="text-base text-[var(--color-dan-mo)] tracking-[0.2em]">
+                            {entry.text}
+                          </span>
+                          <span className="text-xs text-[var(--color-gu-tong)] ml-2">
+                            {entry.hexName}
+                          </span>
+                        </div>
+                        <span className="text-xs text-[var(--color-border)]">
+                          {new Date(entry.timestamp).toLocaleDateString('zh-CN')}
                         </span>
-                        <span className="text-xs text-[var(--color-gu-tong)] ml-2">
-                          {entry.hexName}
-                        </span>
-                      </div>
-                      <span className="text-xs text-[var(--color-border)]">
-                        {new Date(entry.timestamp).toLocaleDateString('zh-CN')}
-                      </span>
-                    </button>
+                      </button>
+                      <button
+                        onClick={() => handleDeleteEntry(entry.id)}
+                        className="px-3 py-3 text-xs text-[#aaa] hover:text-[var(--color-zhu-sha)]
+                                   transition-colors shrink-0"
+                        title={t('history.delete')}
+                      >
+                        ✕
+                      </button>
+                    </div>
                   ))}
                 </div>
               </motion.div>
