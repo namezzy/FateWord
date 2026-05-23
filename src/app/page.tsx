@@ -23,6 +23,8 @@ export default function Home() {
   const [characters, setCharacters] = useState<CharacterInfo[] | null>(null);
   const [divination, setDivination] = useState<DivinationResult | null>(null);
   const [fortune, setFortune] = useState<FortuneResult | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiStatus, setAiStatus] = useState<'idle' | 'success' | 'failed'>('idle');
   const [history, setHistory] = useState<HistoryEntry[]>(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -35,6 +37,7 @@ export default function Home() {
 
   const handleDivine = useCallback(async (text: string) => {
     setIsLoading(true);
+    setAiStatus('idle');
 
     try {
       // 1. 解析汉字
@@ -71,6 +74,66 @@ export default function Home() {
       setIsLoading(false);
     }
   }, [history, locale]);
+
+  // AI 增强：调用 DeepSeek API 生成更详细的解读
+  const handleAiEnhance = useCallback(async () => {
+    if (!divination || !characters || !fortune || aiLoading) return;
+    setAiLoading(true);
+    setAiStatus('idle');
+
+    try {
+      const res = await fetch('/api/divine', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          hexagramData: {
+            originalHex: divination.originalHex.fullName,
+            mutualHex: divination.mutualHex.fullName,
+            changedHex: divination.changedHex.fullName,
+            movingLine: divination.movingLine,
+          },
+          characters: characters.map(c => c.traditionalChar).join(''),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success && data.data) {
+        // 用 AI 生成的文本替换本地文本
+        const aiData = data.data;
+        setFortune(prev => {
+          if (!prev) return prev;
+          return {
+            ...prev,
+            overallFortune: aiData.overall || prev.overallFortune,
+            aspects: prev.aspects.map(aspect => {
+              if (aspect.name === '事业' || aspect.name === '事業' || aspect.name === 'Career') {
+                return { ...aspect, summary: aiData.career || aspect.summary };
+              }
+              if (aspect.name === '财运' || aspect.name === '財運' || aspect.name === 'Wealth') {
+                return { ...aspect, summary: aiData.wealth || aspect.summary };
+              }
+              if (aspect.name === '感情' || aspect.name === 'Love') {
+                return { ...aspect, summary: aiData.love || aspect.summary };
+              }
+              if (aspect.name === '健康' || aspect.name === 'Health') {
+                return { ...aspect, summary: aiData.health || aspect.summary };
+              }
+              return aspect;
+            }),
+          };
+        });
+        setAiStatus('success');
+      } else {
+        setAiStatus('failed');
+      }
+    } catch (err) {
+      console.error('AI enhance error:', err);
+      setAiStatus('failed');
+    } finally {
+      setAiLoading(false);
+    }
+  }, [divination, characters, fortune, aiLoading]);
 
   return (
     <main className="min-h-screen px-4 py-8 sm:py-12 overflow-hidden">
@@ -237,6 +300,50 @@ export default function Home() {
               characters={characters}
               fortune={fortune}
             />
+
+            {/* AI 增强按钮 */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 }}
+              className="max-w-lg mx-auto mt-6 text-center"
+            >
+              {aiStatus === 'success' ? (
+                <div className="text-sm text-[var(--color-zhu-sha)] tracking-[0.2em]">
+                  {t('ai.success')}
+                </div>
+              ) : aiStatus === 'failed' ? (
+                <div className="space-y-2">
+                  <div className="text-sm text-[var(--color-zhu-sha)]">{t('ai.failed')}</div>
+                  <button
+                    onClick={handleAiEnhance}
+                    className="text-xs text-[var(--color-gu-tong)] hover:text-[var(--color-dan-mo)]
+                               underline underline-offset-4 transition-colors"
+                  >
+                    {t('ai.enhance')}
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <motion.button
+                    onClick={handleAiEnhance}
+                    disabled={aiLoading}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="py-2.5 px-8 border border-[var(--color-gu-tong)]
+                               text-sm text-[var(--color-gu-tong)] tracking-[0.2em]
+                               transition-all duration-300
+                               hover:bg-[var(--color-gu-tong)] hover:text-white
+                               disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {aiLoading ? t('ai.loading') : t('ai.enhance')}
+                  </motion.button>
+                  <p className="text-[10px] text-[var(--color-gu-tong)] opacity-70">
+                    {t('ai.desc')}
+                  </p>
+                </div>
+              )}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
