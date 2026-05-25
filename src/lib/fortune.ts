@@ -13,11 +13,22 @@ export interface FortuneAspect {
   detail: string;
 }
 
+export interface AiAdvice {
+  dos: string;        // 宜
+  donts: string;      // 忌
+  luckyColor: string;  // 幸运颜色
+  luckyNumber: string; // 幸运数字
+  luckyDirection: string; // 幸运方位
+  poem: string;        // AI 赠诗一句
+}
+
 export interface FortuneResult {
   overallFortune: string;    // 总体批语
   aspects: FortuneAspect[];  // 四柱运势
   dateGanZhi: GanZhi;
   wuxingRelation: WuXingRelation;
+  isAiEnhanced?: boolean;    // 是否已 AI 增强
+  aiAdvice?: AiAdvice;       // AI 锦囊妙计
 }
 
 type LocaleKey = 'zh-CN' | 'zh-TW' | 'en';

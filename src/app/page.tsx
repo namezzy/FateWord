@@ -106,19 +106,28 @@ export default function Home() {
           if (!prev) return prev;
           return {
             ...prev,
+            isAiEnhanced: true,
             overallFortune: aiData.overall || prev.overallFortune,
+            aiAdvice: (aiData.dos || aiData.poem) ? {
+              dos: aiData.dos || '',
+              donts: aiData.donts || '',
+              luckyColor: aiData.luckyColor || '',
+              luckyNumber: aiData.luckyNumber || '',
+              luckyDirection: aiData.luckyDirection || '',
+              poem: aiData.poem || '',
+            } : undefined,
             aspects: prev.aspects.map(aspect => {
               if (aspect.name === '事业' || aspect.name === '事業' || aspect.name === 'Career') {
-                return { ...aspect, summary: aiData.career || aspect.summary };
+                return { ...aspect, summary: aiData.career || aspect.summary, detail: aiData.careerDetail || aspect.detail };
               }
               if (aspect.name === '财运' || aspect.name === '財運' || aspect.name === 'Wealth') {
-                return { ...aspect, summary: aiData.wealth || aspect.summary };
+                return { ...aspect, summary: aiData.wealth || aspect.summary, detail: aiData.wealthDetail || aspect.detail };
               }
               if (aspect.name === '感情' || aspect.name === 'Love') {
-                return { ...aspect, summary: aiData.love || aspect.summary };
+                return { ...aspect, summary: aiData.love || aspect.summary, detail: aiData.loveDetail || aspect.detail };
               }
               if (aspect.name === '健康' || aspect.name === 'Health') {
-                return { ...aspect, summary: aiData.health || aspect.summary };
+                return { ...aspect, summary: aiData.health || aspect.summary, detail: aiData.healthDetail || aspect.detail };
               }
               return aspect;
             }),
